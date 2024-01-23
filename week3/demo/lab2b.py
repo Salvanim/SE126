@@ -11,7 +11,7 @@ print(f"\n{'Type':8} {'Brand':8} {'CPU':6} {'RAM':6} {'1st Disk':6} {'No HDD':6}
 with open("week3/demo/lab2b.csv") as csvfile:
 
     file = csv.reader(csvfile)
-
+    
     for rec in file:
        
         #print(rec[0]) #shows as LIST -> []
@@ -66,4 +66,4 @@ with open("week3/demo/lab2b.csv") as csvfile:
         print(f"{comp_type:8} {manu:8} {processor:6} {ram:6} {hdd_1:10} {num_hdd:6} {hdd_2:6} {os:6} {year:6}")
 #----DISCONNECTED FROM FILE-------------------------------------------
 
-print(f"TOTAL RECORDS: {total_records}")
+print(f"TOTAL AMOUNT OF COMPUTERS: {total_records}")

@@ -13,7 +13,13 @@ numNotVote = 0
 numVote = 0
 total_records = 0
 
-with open("voters_202040.csv") as csvfile:
+#initialize lists
+Ages = []
+Registrations = []
+Votes = []
+
+
+with open("week3/lab/voters_202040.csv") as csvfile:
     #must indent when connected to and reading the file
 
     #defines fileContent
@@ -22,14 +28,42 @@ with open("voters_202040.csv") as csvfile:
     #accesses all rows withing csv
     for rec in file:
         
-        #defines each record 
-        ID = rec[0]
-        Age = rec[1]
-        Gender = rec[3]
 
+        #defines each record 
+        Age = int(rec[1])
+        Registered = rec[2]
+        Voted = rec[3]
+
+        #Appends all records to repspective lists
+        Ages.append(Age)
+        Registrations.append(Registered)
+        Votes.append(Voted)
+
+        #Counts amount of records
         total_records += 1
     
-    print(f"Not Eligible: {numNotEligible}")
-    print(f"Not Registered: {numNotRegistered}")
-    print(f"Did not Vote: {numNotVote}")
-    print(f"Voted: {numVote}")
+    #Searches though all lists
+    for index in range(0,total_records):
+        if Ages[index] < 18: #If under 18, increments numNotEligible
+            numNotEligible += 1
+        elif Registrations[index] == "N": #If not under 18, but not registerd, increments numNotRegistered
+            numNotRegistered += 1
+        elif Votes[index] == "N": #IF not under 18, and registerd, but did not vode, increments numNotVote
+            numNotVote += 1
+        else: #If all previoue return false, they must have voted
+            numVote += 1
+
+    #Prints Number of individuals not eligible to register.
+    print(f"\nNot old enough to register: {numNotEligible}")
+
+    #Prints Number of individuals who are old enough to vote but have not registered.
+    print(f"\nOld enough but not registered: {numNotRegistered}")
+
+    #Prints Number of individuals who are eligible to vote but did not vote.
+    print(f"\nRegistered but did not vote: {numNotVote}")
+
+    #Prints Number of individuals who did vote.
+    print(f"\nDid vote: {numVote}")
+
+    #Prints Total amount of voters
+    print(f"\nTotal amount of voters: {total_records}\n")
