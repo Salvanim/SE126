@@ -1,4 +1,5 @@
 import csv
+import webbrowser
 
 #Dylan Fisher: Midterm
 
@@ -95,6 +96,20 @@ def greaterBubbleSort(given2D,arrayToSort):
 
     return given2D
 
+def sequenceSearch(searchTerm, arrayToSearch):
+    for i in range(0, len(arrayToSearch)):
+        if arrayToSearch[i] == searchTerm:
+            return i
+    return -1
+
+def findAllIndexs(searchTerm, arrayToSearch, indexes = []):
+    searched = sequenceSearch(searchTerm, arrayToSearch)
+    if searched > 1:
+        indexes.append(searched)
+        del arrayToSearch[searched]
+        indexes = findAllIndexs(searchTerm, arrayToSearch, indexes)
+    else:
+        return indexes
 #defines amount of records
 recordTotal = 0
 
@@ -145,4 +160,5 @@ with open("midterm/100TrendingBooks.csv") as csvfile:
         #Counts records
         recordTotal += 1
 
-    print(greaterBubbleSort(fileValues, yearsPublished)[::-1][0])
+
+print(greaterBubbleSort(fileValues, yearsPublished)[0])
