@@ -1,6 +1,6 @@
 import csv
 import webbrowser
-
+import tkinter as tk
 #Dylan Fisher: Midterm
 
 #Prompt:
@@ -48,7 +48,7 @@ def bubbleSort(arrayToSort):
         firstValue = arrayToSort[i-1]
         secondValue = arrayToSort[i]
 
-        #checks if for greater value
+        #checks if first value greater value
         if firstValue > secondValue:
 
             #swaps so greate value is second
@@ -96,20 +96,99 @@ def greaterBubbleSort(given2D,arrayToSort):
 
     return given2D
 
+#function itterates though list looking for exact search term, returns indexs of every value that matchs
 def sequenceSearch(searchTerm, arrayToSearch):
+    foundIndexs = []
     for i in range(0, len(arrayToSearch)):
         if arrayToSearch[i] == searchTerm:
-            return i
-    return -1
+            foundIndexs.append(i)
+    return foundIndexs
 
-def findAllIndexs(searchTerm, arrayToSearch, indexes = []):
-    searched = sequenceSearch(searchTerm, arrayToSearch)
-    if searched > 1:
-        indexes.append(searched)
-        del arrayToSearch[searched]
-        indexes = findAllIndexs(searchTerm, arrayToSearch, indexes)
+#function itterates though list looking for content with search term, returns indexes of every value that matches
+def contentSequenceSearch(searchTerm, arrayToSearch):
+    foundIndexs = []
+    for i in range(0, len(arrayToSearch)):
+        if searchTerm in arrayToSearch[i]:
+            foundIndexs.append(i)
+    return foundIndexs
+
+#funciton takes string and converts to lit of unicode values for each character in string
+def stringToUnicodeValues(string):
+    outputUnicode = []
+    i = 1
+    for s in string:
+        outputUnicode.append(ord(s) * i)
+        i += 1
+    return outputUnicode
+
+#funciton takes objects, gets string representation
+#gets unicode values of each string
+#determines difference between compareTo unicode and compare unicode
+#returns sum of difference
+def detrmineCompareativeValue(compare, compareTo):
+    compare = str(compare)
+    compareTo = str(compareTo)
+
+    compareValues = stringToUnicodeValues(compare)
+    compareToValues = stringToUnicodeValues(compareTo)
+
+    if len(compareValues) < len(compareToValues):
+        for i in range(0, len(compareToValues)):
+            if i >= len(compareValues):
+                compareValues.append(compareToValues[i])
     else:
-        return indexes
+        for i in range(0, len(compareValues)):
+            if i >= len(compareToValues):
+                compareToValues.append(compareValues[i])
+    
+    difference = []
+    for i in range(0, len(compareToValues)):
+        difference.append((compareToValues[i])-(compareValues[i]))
+    
+    return abs(sum(difference))
+
+#function uses determineComparitiveValue function to populate list with comparisions values between a search term and values in given array
+def getComparisonsOnSearch(searchTerm, arrayToSearch):
+    comparisons = []
+    for value in arrayToSearch:
+        comparisons.append(detrmineCompareativeValue(value, searchTerm))
+    return comparisons
+
+
+#Menu function for displaying user interactoin
+def menu():
+    enter = input("Would you like to search the library? (Y/N): ").lower()
+    options = ["Title", "Price", "Rating","Author","Year Published", "Genre"]
+    
+    if enter == "y":
+        selectedOption = optionSelector(options)
+
+#function for selecting option
+def optionSelector(options):
+    print("These are your searching options: ")
+        
+    for i in range(0, len(options)):
+        print(f"{i+1}. {options[i]}")
+        
+    selectedOption = ""
+    while not selectedOption.isdigit():
+
+        selectedOption = input("Please select your searching option based by giving number: ")
+
+        if selectedOption.isdigit():
+            selectedOption = int(selectedOption)
+            if not (selectedOption in list(range(1, len(options)+1))):
+                print("Not a option, please try again: ")
+                selectedOption = ""
+                
+        else:
+            print("Not a number, please try again: ")
+
+        selectedOption = str(selectedOption)
+
+    selectedOption = int(selectedOption)-1
+    return options[selectedOption]
+
 #defines amount of records
 recordTotal = 0
 
@@ -160,5 +239,4 @@ with open("midterm/100TrendingBooks.csv") as csvfile:
         #Counts records
         recordTotal += 1
 
-
-print(greaterBubbleSort(fileValues, yearsPublished)[0])
+print(greaterBubbleSort(titles,getComparisonsOnSearch("A The", titles)))
