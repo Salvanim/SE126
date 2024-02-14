@@ -1,6 +1,5 @@
 import csv
-import webbrowser
-import tkinter as tk
+
 #Dylan Fisher: Midterm
 
 #Prompt:
@@ -154,40 +153,77 @@ def getComparisonsOnSearch(searchTerm, arrayToSearch):
         comparisons.append(detrmineCompareativeValue(value, searchTerm))
     return comparisons
 
+#searches array for search term using comparisoin search function, then sorts sort array uses bubble sort
+def searchSortComparison(searchTerm, sortArray, searchArray):
+    return greaterBubbleSort(sortArray,getComparisonsOnSearch(searchTerm, searchArray))
+
+#prints multiArray with heading based off of rowNames, and prints only to printTo value
+def printMultiArray(rowNames, rowArrays, multiArray, printTo):
+
+    generatedHeader = ""
+    spacingList = []
+
+    for i in range(0, len(rowNames)):
+        maxRowNum = max([len(str(r)) for r in rowArrays[i]])
+        generatedHeader += f" {rowNames[i]:^{max(maxRowNum-5,10)}} "
+        spacingList.append(maxRowNum)
+    print(generatedHeader)
+
+    for i in range(0, len(multiArray)):
+        finalPrintedCollumn = ""
+        for j in range(0, len(multiArray[i])):
+            finalPrintedCollumn += f" {multiArray[i][j]:^{spacingList[j]}} "
+        
+        if i <= printTo:
+            print(finalPrintedCollumn)
 
 #Menu function for displaying user interactoin
-def menu():
-    enter = input("Would you like to search the library? (Y/N): ").lower()
+def menu(individualArrays, multiArray):
+    enter = input("\nWould you like to search the library? (Y/N): ").lower()
+    while enter != "y" and enter != "n":
+        print("\nPlease only enter 'y' or 'n")
+        enter = input("\nWould you like to search the library? (Y/N): ").lower()
+
     options = ["Title", "Price", "Rating","Author","Year Published", "Genre"]
     
     if enter == "y":
         selectedOption = optionSelector(options)
+        searchTerm = input("\nWhat do you want to search?: ")
+        searchResult = searchSortComparison(searchTerm, multiArray, individualArrays[selectedOption])
+        amount = input("\nHow many results do you want?: ")
+        
+        while not amount.isdigit():
+            print("\nPlease only enter number: ")
+            amount = input("\nHow many results do you want?: ")
+
+        amount = min([100, abs(int(amount))])
+        printMultiArray(options, individualArrays, searchResult, amount)
 
 #function for selecting option
 def optionSelector(options):
-    print("These are your searching options: ")
+    print("\nThese are your searching options: ")
         
     for i in range(0, len(options)):
-        print(f"{i+1}. {options[i]}")
+        print(f"\n{i+1}. {options[i]}")
         
     selectedOption = ""
     while not selectedOption.isdigit():
 
-        selectedOption = input("Please select your searching option based by giving number: ")
+        selectedOption = input("\nPlease select your searching option based by giving number: ")
 
         if selectedOption.isdigit():
             selectedOption = int(selectedOption)
             if not (selectedOption in list(range(1, len(options)+1))):
-                print("Not a option, please try again: ")
+                print("\nNot a option, please try again: ")
                 selectedOption = ""
                 
         else:
-            print("Not a number, please try again: ")
+            print("\nNot a number, please try again: ")
 
         selectedOption = str(selectedOption)
 
     selectedOption = int(selectedOption)-1
-    return options[selectedOption]
+    return selectedOption
 
 #defines amount of records
 recordTotal = 0
@@ -234,9 +270,9 @@ with open("midterm/100TrendingBooks.csv") as csvfile:
         yearsPublished.append(int(rec[5]))
         genres.append(rec[6])
         urls.append(rec[7])
-        fileValues.append([rec[1], float(rec[2]), float(rec[3]),rec[4],int(rec[5]),rec[6],rec[7]])
+        fileValues.append([rec[1], float(rec[2]), float(rec[3]),rec[4],int(rec[5]),rec[6]])
         
         #Counts records
         recordTotal += 1
 
-print(greaterBubbleSort(titles,getComparisonsOnSearch("A The", titles)))
+menu([titles, prices, ratings, authors, yearsPublished, genres], fileValues)
