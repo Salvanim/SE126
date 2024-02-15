@@ -172,7 +172,7 @@ def printMultiArray(rowNames, rowArrays, multiArray, printTo):
     for i in range(0, len(multiArray)):
         finalPrintedCollumn = ""
         for j in range(0, len(multiArray[i])):
-            finalPrintedCollumn += f" {multiArray[i][j]:^{spacingList[j]}} "
+            finalPrintedCollumn += f" {multiArray[i][j]:^{max(spacingList[j]-5,10)}} "
         
         if i <= printTo:
             print(finalPrintedCollumn)
