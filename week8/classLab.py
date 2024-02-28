@@ -31,8 +31,9 @@ def selectSeat(seats):
 
             #converts seat letter to index
             letterDictionary = {"A": 0, "B":1, "C":2, "D":3}
-            if seatLetter in letterDictionary.keys:
+            if seatLetter in letterDictionary.keys():
                 isInproperLetter = 'n'
+            else:
                 print("Not a proper Seat")
 
         #gets seat user has slected
@@ -44,7 +45,7 @@ def selectSeat(seats):
             seats[seatRow][letterDictionary[seatLetter]] = "X"
             printSeats(seats)
             # asks user if the want to select another seat
-            another = input("Would you like to select another seat? (y/n): ")
+            another = input("\nWould you like to select another seat? (y/n): ")
             if another != "y":
                 seatselectSeatPlacement = "n"
         else:
@@ -53,7 +54,7 @@ def selectSeat(seats):
 
 #Itterates though seat array and prints 2d
 def printSeats(seats):
-    print("AirDrogon ~ Valyria Bount Flight #4815")
+    print("\nAirDrogon ~ Valyria Bount Flight #4815")
     #prints top boarder and heading
     print("-"*39)
     print("|\tRow #\t-  -\t\t-  -  |")
