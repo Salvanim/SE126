@@ -47,7 +47,8 @@ def selectSeat(seats):
             # asks user if the want to select another seat
             another = input("\nWould you like to select another seat? (y/n): ")
             if another != "y":
-                seatselectSeatPlacement = "n"
+                selectSeatPlacement = "n"
+
         else:
             print("Select another seat: ")
     return seats
