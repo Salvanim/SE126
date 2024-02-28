@@ -16,4 +16,6 @@ with open("finalLab\seats.csv") as csvfile:
     recIndex = 0
     #accesses all records withing csv
     for rec in file:
-        
+        if recIndex > 0 and recIndex < 16:
+            print(rec)
+        recIndex += 1
