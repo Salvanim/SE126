@@ -56,7 +56,7 @@ def bubbleSort(arrayToSort):
 
             #defines that greater was determined
             wasGreater = 1
-            
+
     #recursivly runs algorithim untile firstValue never greater than second
     if wasGreater == 1:
         arrayToSort = bubbleSort(arrayToSort)
@@ -81,14 +81,14 @@ def greaterBubbleSort(given2D,arrayToSort):
             #swaps so greater value is second
             arrayToSort[i] = firstValue
             arrayToSort[i-1] = secondValue
-            
+
             #swaps 2d
             given2D[i] = first2D
             given2D[i-1] = second2D
 
             #defines that greater was determined
             wasGreater = 1
-            
+
     #recursivly runs algorithim untile firstValue never greater than second
     if wasGreater == 1:
         given2D = greaterBubbleSort(given2D, arrayToSort)
@@ -139,11 +139,11 @@ def detrmineCompareativeValue(compare, compareTo):
         for i in range(0, len(compareValues)):
             if i >= len(compareToValues):
                 compareToValues.append(compareValues[i])
-    
+
     difference = []
     for i in range(0, len(compareToValues)):
         difference.append((compareToValues[i])-(compareValues[i]))
-    
+
     return abs(sum(difference))
 
 #function uses determineComparitiveValue function to populate list with comparisions values between a search term and values in given array
@@ -173,7 +173,7 @@ def printMultiArray(rowNames, rowArrays, multiArray, printTo):
         finalPrintedCollumn = ""
         for j in range(0, len(multiArray[i])):
             finalPrintedCollumn += f" {multiArray[i][j]:^{spacingList[j]}} "
-        
+
         if i <= printTo:
             print(finalPrintedCollumn)
 
@@ -185,13 +185,13 @@ def menu(individualArrays, multiArray):
         enter = input("\nWould you like to search the library? (Y/N): ").lower()
 
     options = ["Title", "Price", "Rating","Author","Year Published", "Genre"]
-    
+
     if enter == "y":
         selectedOption = optionSelector(options)
         searchTerm = input("\nWhat do you want to search?: ")
         searchResult = searchSortComparison(searchTerm, multiArray, individualArrays[selectedOption])
         amount = input("\nHow many results do you want?: ")
-        
+
         while not amount.isdigit():
             print("\nPlease only enter number: ")
             amount = input("\nHow many results do you want?: ")
@@ -202,10 +202,10 @@ def menu(individualArrays, multiArray):
 #function for selecting option
 def optionSelector(options):
     print("\nThese are your searching options: ")
-        
+
     for i in range(0, len(options)):
         print(f"\n{i+1}. {options[i]}")
-        
+
     selectedOption = ""
     while not selectedOption.isdigit():
 
@@ -216,7 +216,7 @@ def optionSelector(options):
             if not (selectedOption in list(range(1, len(options)+1))):
                 print("\nNot a option, please try again: ")
                 selectedOption = ""
-                
+
         else:
             print("\nNot a number, please try again: ")
 
@@ -260,7 +260,6 @@ with open("midterm/100TrendingBooks.csv") as csvfile:
     file = csv.reader(csvfile)
     #itterates though records
     for rec in file:
-
         #skips first value in record, is only the index
         #Populates lists
         titles.append(rec[1])
@@ -271,7 +270,7 @@ with open("midterm/100TrendingBooks.csv") as csvfile:
         genres.append(rec[6])
         urls.append(rec[7])
         fileValues.append([rec[1], float(rec[2]), float(rec[3]),rec[4],int(rec[5]),rec[6]])
-        
+
         #Counts records
         recordTotal += 1
 
