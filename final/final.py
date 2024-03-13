@@ -117,10 +117,10 @@ def fileAsString(path):
 def addLine(path, lineNum, string):
     with open(path, "r+") as file:
         lines = file.readlines()
+        lines.insert(lineNum-1, string + '\n')
         file.seek(0)
-        file.truncate()
-        file.writelines(lines[0:lineNum-1] + buildLine(path, string) + lines[lineNum:])
-
+        file.writelines(lines)
+        
 # Main menu function that orchestrates file operations
 # Has user add or remove lines in file
 def menu():
