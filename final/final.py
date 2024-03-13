@@ -124,13 +124,13 @@ def addLine(path, lineNum, string):
 #Finds every row with search value and returns 2d array of rows
 def searchValue(path, search_value):
     matching_rows = []
-
+    search_value = str(search_value)
     with open(path, 'r') as file:
         file_reader = csv.reader(file)
         for row in file_reader:
-            if search_value in row:
-                matching_rows.append(','.join(row))
-
+            for val in row:
+                if search_value.lower() in val.lower():
+                    matching_rows.append(row)
     return matching_rows
 
 #Sorts array by a column
