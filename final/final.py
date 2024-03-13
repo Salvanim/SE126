@@ -120,7 +120,56 @@ def addLine(path, lineNum, string):
         lines.insert(lineNum-1, string + '\n')
         file.seek(0)
         file.writelines(lines)
-        
+
+#Finds every row with search value and returns 2d array of rows
+def searchValue(path, search_value):
+    matching_rows = []
+
+    with open(path, 'r') as file:
+        file_reader = csv.reader(file)
+        for row in file_reader:
+            if search_value in row:
+                matching_rows.append(','.join(row))
+
+    return matching_rows
+
+#Sorts array by a column
+def bubbleSort2D(array, sort_column):
+    rows = len(array)
+
+    for i in range(rows - 1):
+        for j in range(0, rows - i - 1):
+            # Compare the values in the specified column
+            if array[j][sort_column] > array[j + 1][sort_column]:
+                # Swap rows if the values are out of order
+                array[j], array[j + 1] = array[j + 1], array[j]
+
+    return array
+
+#Takes 2d array and gets spacing based on length
+def getSortedSpacing(sorted_array):
+    num_columns = len(sorted_array[0])
+    column_widths = [0] * num_columns
+
+    for row in sorted_array:
+        for i, value in enumerate(row):
+            column_widths[i] = max(column_widths[i], len(str(value)))
+
+    return column_widths
+
+#Uses spacing to return string of 2d array
+def getArrayAsString(array):
+    maxLengths = getSortedSpacing(array)
+    completeString = "\n"
+
+    for row in array:
+        formatted_row = ""
+        for value, width in zip(row, maxLengths):
+            formatted_row += f"{value:^{width+5}} "
+        completeString += formatted_row + "\n"
+
+    return completeString
+
 # Main menu function that orchestrates file operations
 # Has user add or remove lines in file
 def menu():
@@ -164,4 +213,22 @@ def menu():
 
         editFile = input("Do you want to modify more file lines? (y,n): ").lower()
 
+    searchAndSort = input("Do you want to search or sort the file? (y,n): ").lower()
+
+    while searchAndSort == "y":
+
+        search = input("Do you want to search the file for a value? (y,n): ").lower()
+        while search == "y":
+            searchTerm = input("What value do you want to search for?")
+            results = searchValue(path, searchTerm)
+            print(getArrayAsString(results))
+
+            search = input("Do you want to search the file for a value? (y,n): ").lower()
+
+        sort = input("Do you want to get the file sorted? (y, n): ").lower()
+        if sort == "y":
+            columnNum = int(input("What column number do you want to sort by?: "))
+            print(getArrayAsString(bubbleSort2D(readFile(path), columnNum)))
+
+        searchAndSort = input("Do you want to search or sort the file? (y,n): ").lower()
 menu()
